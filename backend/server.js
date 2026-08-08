@@ -1,24 +1,15 @@
 const express = require("express");
+const authRoutes = require("./routes/authRoutes");
+const connectDB = require("./config/db");
+
 const app = express();
 
-app.get("/",(req,res)=>{
-    res.send("Backend is working");
-});
+connectDB();
 
-app.get("/login", (req, res) => {
-    res.send("Login Page");
-});
+app.use(express.json());
 
-app.get("/register", (req, res) => {
-    res.send("Register Page");
-});
+app.use("/api/auth", authRoutes);
 
-app.get("/expenses", (req, res) => {
-    res.send("All Expenses");
-});
-
-
-
-app.listen(5000 ,() => {
-    console.log("Server started");
+app.listen(5000, () => {
+    console.log("Server Started");
 });

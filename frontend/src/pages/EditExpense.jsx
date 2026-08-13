@@ -1,19 +1,19 @@
 import { useState } from "react";
-import { createExpense } from "../services/api";
+import { updateExpense } from "../services/api";
 
-function AddExpense() {
-    const [title, setTitle] = useState("");
-    const [amount, setAmount] = useState("");
-    const [category, setCategory] = useState("");
-    const [date, setDate] = useState("");
-    const [description, setDescription] = useState("");
+function EditExpense({ expense, onUpdated, onCancel }) {
+    const [title, setTitle] = useState(expense.title);
+    const [amount, setAmount] = useState(expense.amount);
+    const [category, setCategory] = useState(expense.category);
+    const [date, setDate] = useState(expense.date.slice(0, 10));
+    const [description, setDescription] = useState(expense.description);
     const [message, setMessage] = useState("");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            await createExpense({
+            const data = await updateExpense(expense._id, {
                 title,
                 amount: Number(amount),
                 category,
@@ -21,13 +21,9 @@ function AddExpense() {
                 description
             });
 
-            setMessage("Expense added successfully");
+            setMessage("Expense updated successfully");
 
-            setTitle("");
-            setAmount("");
-            setCategory("");
-            setDate("");
-            setDescription("");
+            onUpdated(data.expense);
         } catch (error) {
             setMessage(error.message);
         }
@@ -35,26 +31,23 @@ function AddExpense() {
 
     return (
         <div>
-            <h1>Add Expense</h1>
+            <h2>Edit Expense</h2>
 
             <form onSubmit={handleSubmit}>
                 <input
                     type="text"
-                    placeholder="Title"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                 />
 
                 <input
                     type="number"
-                    placeholder="Amount"
                     value={amount}
                     onChange={(e) => setAmount(e.target.value)}
                 />
 
                 <input
                     type="text"
-                    placeholder="Category"
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
                 />
@@ -67,13 +60,16 @@ function AddExpense() {
 
                 <input
                     type="text"
-                    placeholder="Description"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                 />
 
                 <button type="submit">
-                    Add Expense
+                    Update Expense
+                </button>
+
+                <button type="button" onClick={onCancel}>
+                    Cancel
                 </button>
             </form>
 
@@ -82,4 +78,4 @@ function AddExpense() {
     );
 }
 
-export default AddExpense;
+export default EditExpense;

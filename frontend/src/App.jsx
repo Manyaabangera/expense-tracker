@@ -1,8 +1,22 @@
 import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
+import AddExpense from "./pages/AddExpense";
 
 function App() {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        return <Login />;
+    }
+
     return (
-        <Login />
+        <div>
+            <Dashboard />
+
+            <hr />
+
+            <AddExpense />
+        </div>
     );
 }
 

@@ -161,11 +161,32 @@ const deleteExpense = async (req, res) => {
 // EXPENSE SUMMARY
 const getExpenseSummary = async (req, res) => {
     try {
+
+        const matchFilter = {
+            user: new mongoose.Types.ObjectId(req.userId)
+        };
+
+        // Category filter
+        if (req.query.category) {
+            matchFilter.category = req.query.category;
+        }
+
+        // Date filter
+        if (req.query.date) {
+            const startDate = new Date(req.query.date);
+            const endDate = new Date(req.query.date);
+
+            endDate.setDate(endDate.getDate() + 1);
+
+            matchFilter.date = {
+                $gte: startDate,
+                $lt: endDate
+            };
+        }
+
         const result = await Expense.aggregate([
             {
-                $match: {
-                    user: new mongoose.Types.ObjectId(req.userId)
-                }
+                $match: matchFilter
             },
             {
                 $group: {
@@ -196,13 +217,37 @@ const getExpenseSummary = async (req, res) => {
         });
     }
 };
+
+
+// CATEGORY SUMMARY
 const getCategorySummary = async (req, res) => {
     try {
+
+        const matchFilter = {
+            user: new mongoose.Types.ObjectId(req.userId)
+        };
+
+        // Category filter
+        if (req.query.category) {
+            matchFilter.category = req.query.category;
+        }
+
+        // Date filter
+        if (req.query.date) {
+            const startDate = new Date(req.query.date);
+            const endDate = new Date(req.query.date);
+
+            endDate.setDate(endDate.getDate() + 1);
+
+            matchFilter.date = {
+                $gte: startDate,
+                $lt: endDate
+            };
+        }
+
         const result = await Expense.aggregate([
             {
-                $match: {
-                    user: new mongoose.Types.ObjectId(req.userId)
-                }
+                $match: matchFilter
             },
             {
                 $group: {
@@ -232,6 +277,7 @@ const getCategorySummary = async (req, res) => {
         });
     }
 };
+
 
 module.exports = {
     createExpense,

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { createExpense } from "../services/api";
+import "../styles/AddExpense.css";
 
 function AddExpense() {
     const [title, setTitle] = useState("");
@@ -11,6 +12,8 @@ function AddExpense() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        setMessage("");
 
         try {
             await createExpense({
@@ -28,56 +31,110 @@ function AddExpense() {
             setCategory("");
             setDate("");
             setDescription("");
+
         } catch (error) {
             setMessage(error.message);
         }
     };
 
     return (
-        <div>
-            <h1>Add Expense</h1>
+        <div className="add-expense-page">
 
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    placeholder="Title"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                />
+            <div className="add-expense-header">
+                <h1>Add Expense</h1>
+                <p>Record a new expense</p>
+            </div>
 
-                <input
-                    type="number"
-                    placeholder="Amount"
-                    value={amount}
-                    onChange={(e) => setAmount(e.target.value)}
-                />
+            <div className="expense-form-card">
 
-                <input
-                    type="text"
-                    placeholder="Category"
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value)}
-                />
+                <form onSubmit={handleSubmit}>
 
-                <input
-                    type="date"
-                    value={date}
-                    onChange={(e) => setDate(e.target.value)}
-                />
+                    <div className="form-group">
+                        <label>Title</label>
 
-                <input
-                    type="text"
-                    placeholder="Description"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                />
+                        <input
+                            type="text"
+                            placeholder="e.g. Breakfast"
+                            value={title}
+                            onChange={(e) =>
+                                setTitle(e.target.value)
+                            }
+                            required
+                        />
+                    </div>
 
-                <button type="submit">
-                    Add Expense
-                </button>
-            </form>
+                    <div className="form-group">
+                        <label>Amount</label>
 
-            {message && <p>{message}</p>}
+                        <input
+                            type="number"
+                            placeholder="Enter amount"
+                            value={amount}
+                            onChange={(e) =>
+                                setAmount(e.target.value)
+                            }
+                            min="0"
+                            required
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label>Category</label>
+
+                        <input
+                            type="text"
+                            placeholder="e.g. Food, Travel"
+                            value={category}
+                            onChange={(e) =>
+                                setCategory(e.target.value)
+                            }
+                            required
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label>Date</label>
+
+                        <input
+                            type="date"
+                            value={date}
+                            onChange={(e) =>
+                                setDate(e.target.value)
+                            }
+                            required
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label>Description</label>
+
+                        <textarea
+                            placeholder="Add a short description"
+                            value={description}
+                            onChange={(e) =>
+                                setDescription(e.target.value)
+                            }
+                            rows="4"
+                        />
+                    </div>
+
+                    <button
+                        type="submit"
+                        className="add-expense-button"
+                    >
+                        Add Expense
+                    </button>
+
+                </form>
+
+                {message && (
+                    <div className="expense-message">
+                        {message}
+                    </div>
+                )}
+
+            </div>
+
         </div>
     );
 }

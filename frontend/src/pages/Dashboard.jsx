@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import EditExpense from "./EditExpense";
+import "../styles/Dashboard.css";
 
 import {
     getExpenses,
@@ -9,7 +10,6 @@ import {
 } from "../services/api";
 
 function Dashboard() {
-
     const [expenses, setExpenses] = useState([]);
     const [message, setMessage] = useState("");
     const [editingExpense, setEditingExpense] = useState(null);
@@ -21,16 +21,30 @@ function Dashboard() {
 
     const [categories, setCategories] = useState([]);
 
-    // Load all dashboard data
+    const [categoryFilter, setCategoryFilter] = useState("");
+    const [dateFilter, setDateFilter] = useState("");
+
     const loadDashboardData = async () => {
         try {
-            const expenseData = await getExpenses();
+            const expenseData = await getExpenses(
+                categoryFilter,
+                dateFilter
+            );
+
             setExpenses(expenseData.expenses);
 
-            const summaryData = await getExpenseSummary();
+            const summaryData = await getExpenseSummary(
+                categoryFilter,
+                dateFilter
+            );
+
             setSummary(summaryData);
 
-            const categoryData = await getCategorySummary();
+            const categoryData = await getCategorySummary(
+                categoryFilter,
+                dateFilter
+            );
+
             setCategories(categoryData.categories);
 
         } catch (error) {
@@ -38,12 +52,10 @@ function Dashboard() {
         }
     };
 
-    // Load data when Dashboard opens
     useEffect(() => {
         loadDashboardData();
-    }, []);
+    }, [categoryFilter, dateFilter]);
 
-    // Delete expense
     const handleDelete = async (id) => {
         try {
             await deleteExpense(id);
@@ -57,131 +69,233 @@ function Dashboard() {
         }
     };
 
+    const handleClearFilters = () => {
+        setCategoryFilter("");
+        setDateFilter("");
+        setMessage("");
+    };
+
     return (
-        <div>
+        <div className="dashboard">
 
-            <h1>Dashboard</h1>
+            <div className="dashboard-header">
+                <h1>Dashboard</h1>
+                <p>Track and manage your expenses</p>
+            </div>
 
-            {/* Summary */}
-            <div>
+            {/* SUMMARY CARDS */}
+            <div className="summary-container">
 
-                <h2>
-                    Total Spending: ₹{summary.totalAmount}
-                </h2>
+                <div className="summary-card">
+                    <p>Total Spending</p>
+                    <h2>₹{summary.totalAmount}</h2>
+                </div>
 
-                <h2>
-                    Total Expenses: {summary.totalExpenses}
-                </h2>
+                <div className="summary-card">
+                    <p>Total Expenses</p>
+                    <h2>{summary.totalExpenses}</h2>
+                </div>
 
             </div>
 
-            {/* Category Summary */}
-            <div>
+            {/* FILTER SECTION */}
+            <div className="filter-card">
+
+                <h2>Filter Expenses</h2>
+
+                <div className="filter-container">
+
+                    <div className="filter-group">
+                        <label>Category</label>
+
+                        <select
+                            value={categoryFilter}
+                            onChange={(e) =>
+                                setCategoryFilter(e.target.value)
+                            }
+                        >
+                            <option value="">All Categories</option>
+
+                            {categories.map((category) => (
+                                <option
+                                    key={category._id}
+                                    value={category._id}
+                                >
+                                    {category._id}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <div className="filter-group">
+                        <label>Date</label>
+
+                        <input
+                            type="date"
+                            value={dateFilter}
+                            onChange={(e) =>
+                                setDateFilter(e.target.value)
+                            }
+                        />
+                    </div>
+
+                    <button
+                        className="clear-button"
+                        onClick={handleClearFilters}
+                    >
+                        Clear Filters
+                    </button>
+
+                </div>
+
+            </div>
+
+            {/* MESSAGE */}
+            {message && (
+                <div className="message">
+                    {message}
+                </div>
+            )}
+
+            {/* CATEGORY SUMMARY */}
+            <div className="section">
 
                 <h2>Category Summary</h2>
 
-                {categories.length === 0 ? (
-                    <p>No category data found.</p>
-                ) : (
-                    categories.map((category) => (
-                        <div key={category._id}>
+                <div className="category-container">
 
-                            <h3>{category._id}</h3>
+                    {categories.length === 0 ? (
+                        <p>No category data found.</p>
+                    ) : (
+                        categories.map((category) => (
+                            <div
+                                className="category-card"
+                                key={category._id}
+                            >
+                                <h3>{category._id}</h3>
 
-                            <p>
-                                Total Amount: ₹{category.totalAmount}
-                            </p>
+                                <p>
+                                    Amount: ₹{category.totalAmount}
+                                </p>
 
-                            <p>
-                                Total Expenses: {category.totalExpenses}
-                            </p>
+                                <p>
+                                    Expenses: {category.totalExpenses}
+                                </p>
+                            </div>
+                        ))
+                    )}
 
-                        </div>
-                    ))
-                )}
+                </div>
 
             </div>
 
-            {/* Messages */}
-            {message && (
-                <p>{message}</p>
-            )}
-
-            {/* Edit Form */}
+            {/* EDIT EXPENSE */}
             {editingExpense && (
-                <EditExpense
-                    expense={editingExpense}
+                <div className="edit-container">
 
-                    onUpdated={async () => {
+                    <EditExpense
+                        expense={editingExpense}
 
-                        setEditingExpense(null);
+                        onUpdated={async () => {
+                            setEditingExpense(null);
 
-                        setMessage(
-                            "Expense updated successfully"
-                        );
+                            setMessage(
+                                "Expense updated successfully"
+                            );
 
-                        await loadDashboardData();
-                    }}
+                            await loadDashboardData();
+                        }}
 
-                    onCancel={() => {
-                        setEditingExpense(null);
-                    }}
-                />
+                        onCancel={() => {
+                            setEditingExpense(null);
+                        }}
+                    />
+
+                </div>
             )}
 
-            {/* Expense List */}
-            <h2>My Expenses</h2>
+            {/* EXPENSE LIST */}
+            <div className="section">
 
-            {expenses.length === 0 ? (
+                <h2>My Expenses</h2>
 
-                <p>No expenses found.</p>
+                {expenses.length === 0 ? (
+                    <div className="empty-state">
+                        <p>No expenses found.</p>
+                    </div>
+                ) : (
+                    <div className="expense-container">
 
-            ) : (
+                        {expenses.map((expense) => (
+                            <div
+                                className="expense-card"
+                                key={expense._id}
+                            >
 
-                expenses.map((expense) => (
+                                <div className="expense-info">
 
-                    <div key={expense._id}>
+                                    <h3>{expense.title}</h3>
 
-                        <h3>{expense.title}</h3>
+                                    <p>
+                                        Amount:
+                                        <strong>
+                                            ₹{expense.amount}
+                                        </strong>
+                                    </p>
 
-                        <p>
-                            Amount: ₹{expense.amount}
-                        </p>
+                                    <p>
+                                        Category:{" "}
+                                        {expense.category}
+                                    </p>
 
-                        <p>
-                            Category: {expense.category}
-                        </p>
+                                    <p>
+                                        Date:{" "}
+                                        {new Date(
+                                            expense.date
+                                        ).toLocaleDateString()}
+                                    </p>
 
-                        <p>
-                            Date: {expense.date}
-                        </p>
+                                    {expense.description && (
+                                        <p>
+                                            {expense.description}
+                                        </p>
+                                    )}
 
-                        <p>
-                            {expense.description}
-                        </p>
+                                </div>
 
-                        <button
-                            onClick={() =>
-                                setEditingExpense(expense)
-                            }
-                        >
-                            Edit
-                        </button>
+                                <div className="expense-actions">
 
-                        <button
-                            onClick={() =>
-                                handleDelete(expense._id)
-                            }
-                        >
-                            Delete
-                        </button>
+                                    <button
+                                        className="edit-button"
+                                        onClick={() =>
+                                            setEditingExpense(
+                                                expense
+                                            )
+                                        }
+                                    >
+                                        Edit
+                                    </button>
 
-                        <hr />
+                                    <button
+                                        className="delete-button"
+                                        onClick={() =>
+                                            handleDelete(
+                                                expense._id
+                                            )
+                                        }
+                                    >
+                                        Delete
+                                    </button>
+
+                                </div>
+
+                            </div>
+                        ))}
 
                     </div>
+                )}
 
-                ))
-            )}
+            </div>
 
         </div>
     );

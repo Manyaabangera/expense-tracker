@@ -1,0 +1,162 @@
+.add-expense-page {
+    min-height: 100vh;
+    background: #f7f8fc;
+
+    padding: 45px 24px 60px;
+
+    box-sizing: border-box;
+}
+
+.add-expense-header {
+    max-width: 700px;
+    margin: 0 auto 28px;
+}
+
+.add-expense-header h1 {
+    margin: 0;
+
+    color: #1f2937;
+    font-size: 34px;
+}
+
+.add-expense-header p {
+    margin-top: 8px;
+
+    color: #6b7280;
+    font-size: 16px;
+}
+
+/* FORM CARD */
+
+.expense-form-card {
+    max-width: 700px;
+    margin: 0 auto;
+
+    padding: 30px;
+
+    background: white;
+
+    border: 1px solid #e8eaf0;
+    border-radius: 16px;
+
+    box-shadow: 0 5px 18px rgba(30, 41, 59, 0.05);
+
+    box-sizing: border-box;
+}
+
+/* FORM */
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+
+    gap: 7px;
+
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    color: #374151;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+
+    padding: 12px 13px;
+
+    box-sizing: border-box;
+
+    border: 1px solid #d9dce5;
+    border-radius: 8px;
+
+    background: white;
+
+    color: #1f2937;
+
+    font-family: inherit;
+    font-size: 14px;
+
+    outline: none;
+
+    transition: border-color 0.2s ease,
+                box-shadow 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #8b7cf6;
+
+    box-shadow:
+        0 0 0 3px rgba(139, 124, 246, 0.12);
+}
+
+.form-group textarea {
+    resize: vertical;
+}
+
+/* BUTTON */
+
+.add-expense-button {
+    width: 100%;
+
+    padding: 12px 18px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: #6758d6;
+
+    color: white;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: background 0.2s ease,
+                transform 0.2s ease;
+}
+
+.add-expense-button:hover {
+    background: #5849c5;
+
+    transform: translateY(-1px);
+}
+
+/* MESSAGE */
+
+.expense-message {
+    margin-top: 20px;
+
+    padding: 12px 15px;
+
+    border-radius: 8px;
+
+    background: #f3f1ff;
+    border: 1px solid #ddd8ff;
+
+    color: #5547a5;
+
+    font-size: 14px;
+}
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+    .add-expense-page {
+        padding: 30px 15px 45px;
+    }
+
+    .add-expense-header h1 {
+        font-size: 29px;
+    }
+
+    .expense-form-card {
+        padding: 22px;
+    }
+}

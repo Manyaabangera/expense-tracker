@@ -1,7 +1,11 @@
 import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { loginUser } from "../services/api";
+import "../styles/Login.css";
 
-function Login() {
+function Login({ onLogin }) {
+    const navigate = useNavigate();
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
@@ -9,42 +13,106 @@ function Login() {
     const handleLogin = async (e) => {
         e.preventDefault();
 
+        setMessage("");
+
         try {
             const data = await loginUser(email, password);
 
+            // Store JWT token
             localStorage.setItem("token", data.token);
 
-            setMessage("Login successful");
+            // Tell App.jsx that login was successful
+            onLogin();
+
+            // Go to dashboard
+            navigate("/dashboard");
+
         } catch (error) {
             setMessage(error.message);
         }
     };
 
     return (
-        <div>
-            <h1>Expense Tracker</h1>
+        <div className="login-page">
 
-            <h2>Login</h2>
+            <div className="login-card">
 
-            <form onSubmit={handleLogin}>
-                <input
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
+                {/* HEADER */}
+                <div className="login-header">
+                    <h1>Expense Tracker</h1>
 
-                <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
+                    <p>
+                        Manage your expenses easily
+                    </p>
+                </div>
 
-                <button type="submit">Login</button>
-            </form>
+                {/* LOGIN FORM */}
+                <form onSubmit={handleLogin}>
 
-            {message && <p>{message}</p>}
+                    {/* EMAIL */}
+                    <div className="login-form-group">
+
+                        <label>Email</label>
+
+                        <input
+                            type="email"
+                            placeholder="Enter your email"
+                            value={email}
+                            onChange={(e) =>
+                                setEmail(e.target.value)
+                            }
+                            required
+                        />
+
+                    </div>
+
+                    {/* PASSWORD */}
+                    <div className="login-form-group">
+
+                        <label>Password</label>
+
+                        <input
+                            type="password"
+                            placeholder="Enter your password"
+                            value={password}
+                            onChange={(e) =>
+                                setPassword(e.target.value)
+                            }
+                            required
+                        />
+
+                    </div>
+
+                    {/* LOGIN BUTTON */}
+                    <button
+                        type="submit"
+                        className="login-button"
+                    >
+                        Login
+                    </button>
+
+                </form>
+
+                {/* ERROR MESSAGE */}
+                {message && (
+                    <div className="login-message">
+                        {message}
+                    </div>
+                )}
+
+                {/* REGISTER LINK */}
+                <div className="register-link">
+
+                    Don't have an account?{" "}
+
+                    <Link to="/register">
+                        Create Account
+                    </Link>
+
+                </div>
+
+            </div>
+
         </div>
     );
 }

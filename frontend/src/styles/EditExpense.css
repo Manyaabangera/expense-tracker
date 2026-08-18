@@ -1,10 +1,12 @@
 .edit-expense {
     width: 100%;
     box-sizing: border-box;
+   
 }
 
 .edit-header {
     margin-bottom: 24px;
+    
 }
 
 .edit-header h2 {
@@ -41,11 +43,11 @@
 
     padding: 11px 12px;
 
-    border: 1px solid #d9dce5;
+    border: 1px solid #131201;
     border-radius: 8px;
 
-    background: white;
-    color: #1f2937;
+    background: rgb(62, 28, 28);
+    color:white;
 
     font-family: inherit;
     font-size: 14px;
@@ -88,18 +90,18 @@
 .update-button {
     border: none;
 
-    background: #6758d6;
+    background: #4a1c1b;
     color: white;
 }
 
 .update-button:hover {
-    background: #5849c5;
+    background: #6a3e23;
 }
 
 .cancel-button {
     border: 1px solid #d9dce5;
 
-    background: white;
+    background: rgb(241, 238, 194);
     color: #4b5563;
 }
 

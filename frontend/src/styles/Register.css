@@ -5,7 +5,7 @@
     justify-content: center;
     align-items: center;
 
-    background: #f7f8fc;
+    background:  #3e1414;
 
     padding: 24px;
 
@@ -18,7 +18,7 @@
 
     padding: 35px;
 
-    background: white;
+    background:rgb(238, 206, 133);
 
     border: 1px solid #e8eaf0;
     border-radius: 16px;
@@ -60,7 +60,7 @@
 }
 
 .register-form-group label {
-    color: #374151;
+    color: #050606;
 
     font-size: 14px;
     font-weight: 600;
@@ -76,9 +76,9 @@
     border: 1px solid #d9dce5;
     border-radius: 8px;
 
-    background: white;
+    background: rgb(79, 48, 18);
 
-    color: #1f2937;
+    color: #ffffff;
 
     font-family: inherit;
     font-size: 14px;
@@ -103,7 +103,7 @@
     border: none;
     border-radius: 8px;
 
-    background: #6758d6;
+    background: #790d0d;
 
     color: white;
 
@@ -114,7 +114,7 @@
 }
 
 .register-button:hover {
-    background: #5849c5;
+    background: #b1452f;
 }
 
 .register-message {
@@ -139,13 +139,13 @@
 
     text-align: center;
 
-    color: #6b7280;
+    color: #0c0d0f;
 
     font-size: 14px;
 }
 
 .login-link a {
-    color: #6254c7;
+    color: #151323;
 
     font-weight: 600;
 

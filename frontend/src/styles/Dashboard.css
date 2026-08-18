@@ -165,7 +165,7 @@
 .section > h2 {
     margin-bottom: 18px;
 
-    color: #1f2937;
+    color: #000000;
     font-size: 24px;
 }
 
@@ -178,7 +178,7 @@
 }
 
 .category-card {
-    background: white;
+    background: #eeedb3;
 
     border: 1px solid #e8eaf0;
     border-radius: 14px;
@@ -191,14 +191,14 @@
 .category-card h3 {
     margin: 0 0 14px;
 
-    color: #1f2937;
+    color: #020203;
     font-size: 18px;
 }
 
 .category-card p {
     margin: 7px 0;
 
-    color: #6b7280;
+    color: #000000;
     font-size: 14px;
 }
 
@@ -217,9 +217,9 @@
 
     gap: 20px;
 
-    background: white;
+    background:#eeedb3;
 
-    border: 1px solid #e8eaf0;
+    border: 1px solid #eeedb3;
     border-radius: 14px;
 
     padding: 22px 24px;
@@ -250,7 +250,7 @@
 .expense-info p {
     margin: 6px 0;
 
-    color: #6b7280;
+    color: #14171d;
     font-size: 14px;
 }
 
@@ -281,19 +281,19 @@
 }
 
 .edit-button {
-    background: #f2f0ff;
-    color: #6254c7;
+    background: #3f140e;
+    color: #ecebf4;
 
     border: 1px solid #ddd8ff;
 }
 
 .edit-button:hover {
-    background: #e8e4ff;
+    background: #46200b;
 }
 
 .delete-button {
     background: #fff4f4;
-    color: #d14b4b;
+    color: #470606;
 
     border: 1px solid #f2d2d2;
 }

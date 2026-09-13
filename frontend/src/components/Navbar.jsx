@@ -11,7 +11,7 @@ function Navbar({ onLogout }) {
 
     return (
         <nav className="navbar">
-
+            {/* This is a JSX comment */}
             <div className="navbar-container">
 
                 <Link to="/dashboard" className="navbar-brand">
